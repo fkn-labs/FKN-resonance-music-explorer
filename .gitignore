@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Environment variables (contains secrets)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.npm/
+.cache/
+
+# Runtime / Build
+dist/
+build/
+coverage/
+
+# Package lock (optional — uncomment if preferred)
+# package-lock.json

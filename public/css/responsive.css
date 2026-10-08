@@ -1,0 +1,250 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 200px;
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .full-player-artwork-section {
+    max-width: 320px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --topbar-height: 56px;
+    --mini-player-height: 64px;
+  }
+  
+  /* Hide sidebar, show mobile nav */
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: left var(--transition-base);
+    width: 280px;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
+  
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .mobile-nav {
+    display: flex;
+  }
+  
+  /* Adjust main content for mobile nav */
+  .mini-player {
+    bottom: var(--mobile-nav-height);
+  }
+  
+  .page-container {
+    padding: var(--space-4);
+    padding-bottom: calc(var(--mini-player-height) + var(--mobile-nav-height) + var(--space-4));
+  }
+  
+  .top-bar {
+    padding: 0 var(--space-4);
+  }
+  
+  .search-kbd {
+    display: none;
+  }
+  
+  /* Queue panel full width on mobile */
+  .queue-panel {
+    width: 100%;
+    bottom: calc(var(--mini-player-height) + var(--mobile-nav-height));
+  }
+  
+  /* Provider panel full width */
+  .provider-panel {
+    width: 100%;
+    border-radius: 0;
+  }
+  
+  /* YT Player smaller on mobile */
+  .yt-player-container {
+    width: 240px;
+    height: 135px;
+    bottom: calc(var(--mini-player-height) + var(--mobile-nav-height) + var(--space-2));
+    left: var(--space-2);
+  }
+  
+  /* Cards */
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+  }
+  
+  .discover-greeting {
+    font-size: 1.375rem;
+  }
+  
+  /* Track items */
+  .track-artwork {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .track-actions {
+    opacity: 1;
+  }
+  
+  /* Full player */
+  .full-player-content {
+    padding: var(--space-4) var(--space-4);
+  }
+  
+  .full-player-artwork-section {
+    max-width: 280px;
+  }
+  
+  .full-title {
+    font-size: 1.25rem;
+  }
+  
+  .full-controls {
+    gap: var(--space-3);
+  }
+  
+  .ctrl-play-btn {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .volume-slider {
+    width: 80px;
+  }
+  
+  /* Settings */
+  .theme-options {
+    flex-wrap: wrap;
+  }
+  
+  .shortcuts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Playlist */
+  .playlist-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .playlist-artwork-grid {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .playlist-details h1 {
+    font-size: 1.5rem;
+  }
+  
+  .playlist-actions {
+    justify-content: center;
+  }
+  
+  /* Sleep modal */
+  .sleep-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Toast */
+  .toast-container {
+    bottom: calc(var(--mini-player-height) + var(--mobile-nav-height) + var(--space-4));
+    left: var(--space-4);
+    right: var(--space-4);
+  }
+  
+  .toast {
+    max-width: 100%;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+  
+  .card-info {
+    padding: var(--space-2);
+  }
+  
+  .card-title {
+    font-size: 0.8125rem;
+  }
+  
+  .card-subtitle {
+    font-size: 0.6875rem;
+  }
+  
+  .mini-artwork {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .mini-title {
+    font-size: 0.875rem;
+  }
+  
+  .mini-artist {
+    font-size: 0.75rem;
+  }
+  
+  .mini-ctrl-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .mini-play-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .mini-play-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .search-input {
+    height: 36px;
+    font-size: 0.875rem;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+  }
+  
+  .full-player-artwork-section {
+    max-width: 240px;
+  }
+  
+  .provider-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: var(--space-2);
+  }
+}

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#09090B">
+  <title>Resonance — Music Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/player.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Ambient Background -->
+    <div id="ambient-bg" class="ambient-bg">
+      <div class="ambient-orb ambient-orb-1"></div>
+      <div class="ambient-orb ambient-orb-2"></div>
+      <div class="ambient-orb ambient-orb-3"></div>
+    </div>
+    
+    <!-- Visualizer Canvas -->
+    <canvas id="visualizer" class="visualizer-canvas"></canvas>
+
+    <!-- App Layout -->
+    <div class="app-layout">
+      <!-- Sidebar Navigation (Desktop) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+              <circle cx="16" cy="16" r="8" stroke="currentColor" stroke-width="2"/>
+              <circle cx="16" cy="16" r="3" fill="currentColor"/>
+            </svg>
+          </div>
+          <span class="brand-name">Resonance</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <a href="#/" class="nav-item active" data-page="discover">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            <span>Discover</span>
+          </a>
+          <a href="#/search" class="nav-item" data-page="search">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span>Search</span>
+          </a>
+          <a href="#/library" class="nav-item" data-page="library">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            <span>Library</span>
+          </a>
+          <a href="#/playlists" class="nav-item" data-page="playlists">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
+            <span>Playlists</span>
+          </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+          <button class="nav-item" id="btn-settings" data-page="settings">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <span>Settings</span>
+          </button>
+          <button class="nav-item" id="btn-shortcuts" title="Keyboard shortcuts">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M8 12h.001M12 12h.001M16 12h.001M7 16h10"/></svg>
+            <span>Shortcuts</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content" id="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+          
+          <div class="search-bar-wrapper" id="search-bar-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="global-search" class="search-input" placeholder="Search songs, artists, albums..." autocomplete="off" spellcheck="false">
+            <kbd class="search-kbd">/</kbd>
+            <button class="search-clear hidden" id="search-clear" aria-label="Clear search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+          </div>
+          
+          <div class="top-bar-actions">
+            <button class="icon-btn" id="btn-provider-status" title="Provider status" aria-label="Provider status">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Page Container -->
+        <div class="page-container" id="page-container">
+          <!-- Pages loaded dynamically -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Mini Player -->
+    <div class="mini-player hidden" id="mini-player">
+      <div class="mini-player-progress">
+        <div class="mini-progress-bar" id="mini-progress-bar"></div>
+      </div>
+      <div class="mini-player-content">
+        <div class="mini-player-info">
+          <div class="mini-artwork" id="mini-artwork">
+            <div class="artwork-placeholder">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+          </div>
+          <div class="mini-track-info">
+            <div class="mini-title" id="mini-title">Not playing</div>
+            <div class="mini-artist" id="mini-artist"></div>
+          </div>
+        </div>
+        <div class="mini-controls">
+          <button class="mini-ctrl-btn" id="mini-prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          </button>
+          <button class="mini-ctrl-btn mini-play-btn" id="mini-play" aria-label="Play">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="icon-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="icon-pause hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="mini-ctrl-btn" id="mini-next" aria-label="Next">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/></svg>
+          </button>
+          <button class="mini-ctrl-btn" id="mini-expand" aria-label="Expand player">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Player Overlay -->
+    <div class="full-player hidden" id="full-player">
+      <div class="full-player-content">
+        <button class="full-player-close" id="full-player-close" aria-label="Close player">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        
+        <div class="full-player-layout">
+          <div class="full-player-artwork-section">
+            <div class="full-artwork" id="full-artwork">
+              <div class="artwork-placeholder large">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              </div>
+            </div>
+          </div>
+          
+          <div class="full-player-info-section">
+            <div class="full-track-info">
+              <h2 class="full-title" id="full-title">Not playing</h2>
+              <p class="full-artist" id="full-artist"></p>
+              <p class="full-album" id="full-album"></p>
+              <span class="source-badge" id="full-source"></span>
+            </div>
+            
+            <div class="full-progress">
+              <input type="range" class="progress-slider" id="full-progress-slider" min="0" max="100" value="0" aria-label="Seek">
+              <div class="progress-times">
+                <span id="full-time-current">0:00</span>
+                <span id="full-time-total">0:00</span>
+              </div>
+            </div>
+            
+            <div class="full-controls">
+              <button class="ctrl-btn" id="full-shuffle" aria-label="Shuffle">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" x2="21" y1="20" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" x2="21" y1="15" y2="21"/><line x1="4" x2="9" y1="20" y2="15"/></svg>
+              </button>
+              <button class="ctrl-btn" id="full-prev" aria-label="Previous">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+              </button>
+              <button class="ctrl-btn ctrl-play-btn" id="full-play" aria-label="Play">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" class="icon-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" class="icon-pause hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <button class="ctrl-btn" id="full-next" aria-label="Next">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/></svg>
+              </button>
+              <button class="ctrl-btn" id="full-repeat" aria-label="Repeat">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              </button>
+            </div>
+            
+            <div class="full-secondary-controls">
+              <button class="ctrl-btn-sm" id="full-favorite" aria-label="Favorite">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <button class="ctrl-btn-sm" id="full-queue-btn" aria-label="Queue">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
+              </button>
+              <div class="volume-control">
+                <button class="ctrl-btn-sm" id="full-mute" aria-label="Mute">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="icon-volume"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="icon-muted hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" x2="17" y1="9" y2="15"/><line x1="17" x2="23" y1="9" y2="15"/></svg>
+                </button>
+                <input type="range" class="volume-slider" id="full-volume" min="0" max="100" value="80" aria-label="Volume">
+              </div>
+              <button class="ctrl-btn-sm" id="full-sleep" aria-label="Sleep timer">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 1 0 10 10"/><path d="M2 2l4 4"/><path d="m6 2-4 4"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue Panel -->
+    <div class="queue-panel hidden" id="queue-panel">
+      <div class="queue-header">
+        <h3>Queue</h3>
+        <div class="queue-actions">
+          <button class="text-btn" id="queue-clear">Clear</button>
+          <button class="text-btn" id="queue-shuffle-btn">Shuffle</button>
+          <button class="icon-btn" id="queue-close" aria-label="Close queue">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="queue-list" id="queue-list">
+        <div class="queue-empty">Queue is empty</div>
+      </div>
+    </div>
+
+    <!-- Sleep Timer Modal -->
+    <div class="modal hidden" id="sleep-modal">
+      <div class="modal-content">
+        <h3>Sleep Timer</h3>
+        <div class="sleep-options">
+          <button class="sleep-option" data-minutes="5">5 min</button>
+          <button class="sleep-option" data-minutes="10">10 min</button>
+          <button class="sleep-option" data-minutes="15">15 min</button>
+          <button class="sleep-option" data-minutes="30">30 min</button>
+          <button class="sleep-option" data-minutes="45">45 min</button>
+          <button class="sleep-option" data-minutes="60">60 min</button>
+          <button class="sleep-option" data-minutes="0">End of track</button>
+          <button class="sleep-option cancel" data-minutes="-1">Cancel</button>
+        </div>
+        <div class="sleep-status hidden" id="sleep-status"></div>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div class="modal hidden" id="shortcuts-modal">
+      <div class="modal-content shortcuts-content">
+        <div class="modal-header">
+          <h3>Keyboard Shortcuts</h3>
+          <button class="icon-btn" id="shortcuts-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="shortcuts-grid">
+          <div class="shortcut-group">
+            <h4>Playback</h4>
+            <div class="shortcut-row"><kbd>Space</kbd><span>Play / Pause</span></div>
+            <div class="shortcut-row"><kbd>←</kbd><span>Previous</span></div>
+            <div class="shortcut-row"><kbd>→</kbd><span>Next</span></div>
+            <div class="shortcut-row"><kbd>↑</kbd><span>Volume up</span></div>
+            <div class="shortcut-row"><kbd>↓</kbd><span>Volume down</span></div>
+            <div class="shortcut-row"><kbd>M</kbd><span>Mute</span></div>
+          </div>
+          <div class="shortcut-group">
+            <h4>Navigation</h4>
+            <div class="shortcut-row"><kbd>/</kbd><span>Focus search</span></div>
+            <div class="shortcut-row"><kbd>F</kbd><span>Favorite</span></div>
+            <div class="shortcut-row"><kbd>Q</kbd><span>Toggle queue</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd><span>Close panels</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Provider Status Panel -->
+    <div class="provider-panel hidden" id="provider-panel">
+      <div class="provider-header">
+        <h3>Source Status</h3>
+        <button class="icon-btn" id="provider-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="provider-list" id="provider-list"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav" id="mobile-nav">
+      <a href="#/" class="mobile-nav-item active" data-page="discover">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        <span>Discover</span>
+      </a>
+      <a href="#/search" class="mobile-nav-item" data-page="search">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search</span>
+      </a>
+      <a href="#/library" class="mobile-nav-item" data-page="library">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        <span>Library</span>
+      </a>
+      <a href="#/playlists" class="mobile-nav-item" data-page="playlists">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
+        <span>Playlists</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Hidden audio element -->
+  <audio id="audio-player" preload="auto"></audio>
+
+  <!-- YouTube Player Container (hidden by default) -->
+  <div id="yt-player-container" class="yt-player-container hidden">
+    <div id="yt-player"></div>
+  </div>
+
+  <script src="/js/utils/helpers.js"></script>
+  <script src="/js/utils/store.js"></script>
+  <script src="/js/utils/color.js"></script>
+  <script src="/js/utils/visualizer.js"></script>
+  <script src="/js/providers/api.js"></script>
+  <script src="/js/components/toast.js"></script>
+  <script src="/js/components/tracks.js"></script>
+  <script src="/js/components/pages.js"></script>
+  <script src="/js/player.js"></script>
+  <script src="/js/router.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
