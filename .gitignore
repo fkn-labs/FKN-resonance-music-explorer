@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-
+/SETUP.md
 # Environment variables (contains secrets)
 .env
 .env.local
